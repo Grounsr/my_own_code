@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiteForge - Builder</title>
+    <link rel="stylesheet" href="css/builder.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="builder-container">
+        <div class="top-toolbar">
+            <div class="toolbar-left">
+                <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+                <div class="project-name"><input type="text" id="projectName" value="Новый проект"><i class="fas fa-pen edit-icon"></i></div>
+            </div>
+            <div class="toolbar-center">
+                <div class="device-switcher">
+                    <button class="device-btn active" data-device="" title="Desktop"><i class="fas fa-desktop"></i></button>
+                    <button class="device-btn" data-device="laptop" title="Laptop"><i class="fas fa-laptop"></i></button>
+                    <button class="device-btn" data-device="tablet" title="Tablet"><i class="fas fa-tablet-alt"></i></button>
+                    <button class="device-btn" data-device="mobile" title="Mobile"><i class="fas fa-mobile-alt"></i></button>
+                </div>
+                <div class="zoom-controls">
+                    <button class="zoom-btn" id="zoomOut"><i class="fas fa-minus"></i></button>
+                    <span class="zoom-level" id="zoomLevel">100%</span>
+                    <button class="zoom-btn" id="zoomIn"><i class="fas fa-plus"></i></button>
+                </div>
+            </div>
+            <div class="toolbar-right">
+                <button class="toolbar-btn" onclick="undo()" title="Отменить"><i class="fas fa-undo"></i></button>
+                <button class="toolbar-btn" onclick="redo()" title="Повторить"><i class="fas fa-redo"></i></button>
+                <div class="toolbar-divider"></div>
+                <button class="btn btn-secondary btn-sm" onclick="previewProject()"><i class="fas fa-eye"></i>Просмотр</button>
+                <button class="btn btn-primary btn-sm" onclick="saveProject()"><i class="fas fa-save"></i>Сохранить</button>
+                <button class="btn btn-primary btn-sm" onclick="showExportModal()"><i class="fas fa-download"></i>Экспорт</button>
+            </div>
+        </div>
+
+        <div class="editor-main">
+            <aside class="left-panel">
+                <div class="panel-tabs">
+                    <button class="panel-tab active" data-panel="blocks"><i class="fas fa-th-large"></i>Блоки</button>
+                    <button class="panel-tab" data-panel="elements"><i class="fas fa-cube"></i>Элементы</button>
+                    <button class="panel-tab" data-panel="media"><i class="fas fa-image"></i>Медиа</button>
+                </div>
+
+                <div id="blocks-panel" class="panel-content active">
+                    <div class="panel-search"><i class="fas fa-search"></i><input type="text" id="blocksSearch" placeholder="Поиск..."></div>
+                    <div class="blocks-categories">
+                        <div class="category">
+                            <div class="category-header"><i class="fas fa-bars"></i>Навигация</div>
+                            <div class="blocks-grid">
+                                <div class="block-item" data-type="navbar-1" draggable="true"><div class="block-preview navbar-preview"></div><span>Меню 1</span></div>
+                                <div class="block-item" data-type="navbar-2" draggable="true"><div class="block-preview"></div><span>Меню 2</span></div>
+                                <div class="block-item" data-type="navbar-3" draggable="true"><div class="block-preview"></div><span>Меню 3</span></div>
+                            </div>
+                        </div>
+                        <div class="category">
+                            <div class="category-header"><i class="fas fa-star"></i>Hero</div>
+                            <div class="blocks-grid">
+                                <div class="block-item" data-type="hero" draggable="true"><div class="block-preview hero-preview"></div><span>Hero</span></div>
+                                <div class="block-item" data-type="hero-1" draggable="true"><div class="block-preview"></div><span>Hero 1</span></div>
+                                <div class="block-item" data-type="hero-2" draggable="true"><div class="block-preview"></div><span>Hero 2</span></div>
+                            </div>
+                        </div>
+                        <div class="category">
+                            <div class="category-header"><i class="fas fa-align-left"></i>Контент</div>
+                            <div class="blocks-grid">
+                                <div class="block-item" data-type="features" draggable="true"><div class="block-preview"></div><span>Особенности</span></div>
+                                <div class="block-item" data-type="features-grid" draggable="true"><div class="block-preview"></div><span>Сетка</span></div>
+                                <div class="block-item" data-type="cta" draggable="true"><div class="block-preview"></div><span>CTA</span></div>
+                                <div class="block-item" data-type="cards" draggable="true"><div class="block-preview"></div><span>Карточки</span></div>
+                                <div class="block-item" data-type="stats" draggable="true"><div class="block-preview"></div><span>Статистика</span></div>
+                                <div class="block-item" data-type="text-image" draggable="true"><div class="block-preview"></div><span>Текст+Фото</span></div>
+                            </div>
+                        </div>
+                        <div class="category">
+                            <div class="category-header"><i class="fas fa-comments"></i>Отзывы</div>
+                            <div class="blocks-grid">
+                                <div class="block-item" data-type="testimonials" draggable="true"><div class="block-preview"></div><span>Отзывы</span></div>
+                            </div>
+                        </div>
+                        <div class="category">
+                            <div class="category-header"><i class="fas fa-dollar-sign"></i>Тарифы</div>
+                            <div class="blocks-grid">
+                                <div class="block-item" data-type="pricing-1" draggable="true"><div class="block-preview"></div><span>Тарифы</span></div>
+                            </div>
+                        </div>
+                        <div class="category">
+                            <div class="category-header"><i class="fas fa-users"></i>Команда</div>
+                            <div class="blocks-grid">
+                                <div class="block-item" data-type="team" draggable="true"><div class="block-preview"></div><span>Команда</span></div>
+                            </div>
+                        </div>
+                        <div class="category">
+                            <div class="category-header"><i class="fas fa-question-circle"></i>FAQ</div>
+                            <div class="blocks-grid">
+                                <div class="block-item" data-type="faq" draggable="true"><div class="block-preview"></div><span>FAQ</span></div>
+                            </div>
+                        </div>
+                        <div class="category">
+                            <div class="category-header"><i class="fas fa-envelope"></i>Контакты</div>
+                            <div class="blocks-grid">
+                                <div class="block-item" data-type="contact-form" draggable="true"><div class="block-preview"></div><span>Форма</span></div>
+                                <div class="block-item" data-type="contact-info" draggable="true"><div class="block-preview"></div><span>Инфо</span></div>
+                            </div>
+                        </div>
+                        <div class="category">
+                            <div class="category-header"><i class="fas fa-images"></i>Галерея</div>
+                            <div class="blocks-grid">
+                                <div class="block-item" data-type="gallery-grid" draggable="true"><div class="block-preview"></div><span>Галерея</span></div>
+                            </div>
+                        </div>
+                        <div class="category">
+                            <div class="category-header"><i class="fas fa-shoe-prints"></i>Футер</div>
+                            <div class="blocks-grid">
+                                <div class="block-item" data-type="footer-1" draggable="true"><div class="block-preview footer-1-preview"></div><span>Футер 1</span></div>
+                                <div class="block-item" data-type="footer-2" draggable="true"><div class="block-preview"></div><span>Футер 2</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="elements-panel" class="panel-content">
+                    <div class="elements-list">
+                        <div class="element-item" draggable="true" data-type="text"><i class="fas fa-font"></i><span>Текст</span></div>
+                        <div class="element-item" draggable="true" data-type="heading"><i class="fas fa-heading"></i><span>Заголовок</span></div>
+                        <div class="element-item" draggable="true" data-type="button"><i class="fas fa-hand-pointer"></i><span>Кнопка</span></div>
+                        <div class="element-item" draggable="true" data-type="image"><i class="fas fa-image"></i><span>Изображение</span></div>
+                        <div class="element-item" draggable="true" data-type="video"><i class="fas fa-video"></i><span>Видео</span></div>
+                        <div class="element-item" draggable="true" data-type="form"><i class="fas fa-wpforms"></i><span>Форма</span></div>
+                    </div>
+                </div>
+
+                <div id="media-panel" class="panel-content">
+                    <div class="media-upload-area" onclick="document.getElementById('mediaUpload').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Загрузить изображения</p>
+                        <input type="file" id="mediaUpload" accept="image/*" multiple style="display:none" onchange="handleMediaUpload(event)">
+                    </div>
+                    <div class="media-tabs">
+                        <button class="media-tab active">Мои файлы</button>
+                    </div>
+                    <div id="mediaGrid" class="media-grid"></div>
+                </div>
+            </aside>
+
+            <div class="canvas-area">
+                <div class="canvas-scroll">
+                    <div class="canvas-wrapper">
+                        <div id="canvas" class="canvas">
+                            <div class="canvas-drop-zone">
+                                <div class="drop-zone-content">
+                                    <i class="fas fa-plus-circle"></i>
+                                    <p>Перетащите блоки сюда</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="right-panel">
+                <div class="panel-header"><h3>Свойства страницы</h3></div>
+                <div class="properties-content">
+                    <div class="property-group">
+                        <h4>SEO</h4>
+                        <div class="property-item"><label>Заголовок</label><input type="text" class="prop-input" placeholder="Название страницы"></div>
+                        <div class="property-item"><label>Описание</label><textarea class="prop-textarea" placeholder="Описание для поисковиков..."></textarea></div>
+                    </div>
+                    <div class="property-group">
+                        <h4>Цвета</h4>
+                        <div class="property-item"><label>Основной цвет</label>
+                            <div class="color-picker-wrapper">
+                                <input type="color" class="color-picker" value="#6366f1">
+                                <input type="text" class="color-input" value="#6366f1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <div id="contextMenu" class="context-menu">
+        <div class="context-item" onclick="duplicateBlock(selectedBlock)"><i class="fas fa-copy"></i>Дублировать</div>
+        <div class="context-item" onclick="moveBlockUp(selectedBlock)"><i class="fas fa-arrow-up"></i>Переместить вверх</div>
+        <div class="context-item" onclick="moveBlockDown(selectedBlock)"><i class="fas fa-arrow-down"></i>Переместить вниз</div>
+        <div class="context-divider"></div>
+        <div class="context-item danger" onclick="deleteBlock(selectedBlock)"><i class="fas fa-trash"></i>Удалить</div>
+    </div>
+
+    <div id="exportModal" class="modal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header"><h2>Экспорт проекта</h2><button class="modal-close" onclick="closeModal('exportModal')">×</button></div>
+            <div class="modal-body">
+                <div class="export-options">
+                    <div class="export-option active">
+                        <i class="fas fa-code"></i>
+                        <h4>HTML/CSS</h4>
+                        <p>Чистый код</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('exportModal')">Отмена</button>
+                <button class="btn btn-primary" onclick="exportProject()"><i class="fas fa-download"></i>Скачать</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/blocks.js"></script>
+    <script src="js/builder.js"></script>
+</body>
+</html>
